@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include <stdio.h> //untuk fungsi input output
+#include <string.h> //untuk fungsi manipulasi string
+#include <stdlib.h> //untuk fungsi alokasi memori
 
 //anggapan semua kata di trie unik
 struct node{
@@ -15,6 +15,7 @@ struct node{
 }; 
 
 //biar rapi aja
+//function prototype
 struct node* createNode(char c);
 void insert(char *word, char *description);
 void printTrie(struct node *root, char *word, int level);
@@ -52,20 +53,30 @@ int main(){
 }
 
 void menu(){
-    //gbs ini
+    //clear screen agar tidak penuh
+    //windows pake ini
     // system("cls");
     system("clear");
+
+    //pilihan user
     int choice;
+
+    //kata-kata yang mungkin di input
     char word[100];
     char description[100];
+
+    //opsi menu
     printf("1. Release a new slang word\n");
     printf("2. Search for a slang word\n");
     printf("3. View all slang words starting with a certain prefix word\n");
     printf("4. View all slang words\n");
     printf("5. Exit\n");
+
+    //pilihan user
     printf("Enter choice: ");
     scanf("%d", &choice);
 
+    //switch case untuk setiap pilihan
     switch (choice){
         case 1:
             int countSpaces;
@@ -73,6 +84,8 @@ void menu(){
                 printf("Input a new slang word [must be more than 1 characters and contains no spaces]: ");
                 //ternyata salah di sini
                 scanf(" %[^\n]", word); getchar();
+
+                //hitung jumlah spasi
                 countSpaces = 0;
                 for (int i = 0; word[i] != '\0'; i++){
                     if (word[i] == ' '){
@@ -80,29 +93,32 @@ void menu(){
                     }
                 }
                 //code bugging here when len of word is 2 so added special condtion
-                //gtau ini gara2 otak ngebug atau emg c aja yg aneh
+                //gtau ini gara2 otak ngebug atau emg c aja yg aneh //fixeed
                 // if (strlen(word) == 2 && countSpaces == 0) break;
-                if(strlen(word) < 2 || countSpaces != 0){
+                if(strlen(word) < 2 || countSpaces != 0){ // jika tidak sesuai kondisi loop diulang
                     continue;
                 }else{
-                    break;
+                    break; //keluar dari loop
                 }
             }
             while (1){
                 printf("Input new slang word description [must be more than 2 words]: ");
                 scanf(" %[^\n]", description); getchar();
+
+                //hitung jumlah spasi
                 countSpaces = 0;
                 for (int i = 0; description[i] != '\0'; i++){
                     if (description[i] == ' '){
                         countSpaces++;
                     }
                 }
-                if (countSpaces < 2){
+                if (countSpaces < 2){ //jika tidak sesuai kondisi loop diulang
                     continue;
                 }else{ 
-                    break;
+                    break; //keluar dari loop
                 }
             }
+            //memasukkan kata dan deskripsi ke trie setelah memenuhi syarat
             insert(word, description);
             printf("Press enter to continue...");
             getchar();
@@ -121,45 +137,58 @@ void menu(){
                     break;
                 }
             }
+            //mencari kata di trie dan return node nya 
             struct node *curr = searchWord(root, word);
+
+            //jika kata ditemukan print deskripsi
             if(curr != NULL){
                 printf("\nSlang word: %s\n", word);
                 printf("Description: %s\n", curr->description);
-            }else {
+            }else { //jika tidak ditemukan
                 printf("\nThere is no word \"%s\" in the dictionary\n", word);
             }
             printf("\nPress enter to continue...");
             getchar();
-            menu();
+            menu(); //kembali ke menu
             break;
         case 3:
+            //prefix yang mungkin di input
             char prefix[100];
+
+            //index untuk angka ketika display
             countIndex = 1;
+
             printf("Input a prefix to be searched: ");
             getchar();
+            //input prefix
             scanf("%s", prefix); getchar();
+
+            //mencari kata yang berawalan dengan prefix tersebut
             printStartWith(root, prefix);
             printf("\nPress enter to continue...");
             getchar();
-            menu();
+            menu(); //kembali ke menu
             break;
         case 4:
+            //index untuk angka ketika display
             countIndex = 1;
+
+            //jika trie kosong
             if(isEmpty(root)){
                 printf("There is no slang word yet in the dictionary\n");
-            }else{
+            }else{ //jika trie tidak kosong
                 printf("List of all slang words in the dictionary:\n");
                 printTrie(root, (char*)malloc(100), 0);
             }
             getchar();
             printf("\nPress enter to continue...");
             getchar();
-            menu();
+            menu(); //kembali ke menu
             break;
         case 5:
             printf("Thank you... Have a nice day :)\n");
             getchar();
-            exit(1);
+            exit(1); //keluar dari program
             break;
         //tambah delete function ah
 
@@ -254,7 +283,7 @@ struct node *searchWord(struct node *root, char *word) {
         //tidak ada node dengan kata tersebut
         if (curr->children[index] == NULL) {
             // printf("Word not found\n");
-            return 0;
+            return NULL;
         }
         curr = curr->children[index];
     }
