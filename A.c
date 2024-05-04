@@ -70,7 +70,8 @@ void menu(){
     printf("2. Search for a slang word\n");
     printf("3. View all slang words starting with a certain prefix word\n");
     printf("4. View all slang words\n");
-    printf("5. Exit\n");
+    printf("5. Remove a slang word\n");
+    printf("6. Exit\n");
 
     //pilihan user
     printf("Enter choice: ");
@@ -185,12 +186,31 @@ void menu(){
             getchar();
             menu(); //kembali ke menu
             break;
+
+        //fitur tambahan delete kata
         case 5:
+            countIndex = 1; 
+            printTrie(root, (char*)malloc(100), 0);
+            printf("Input a slang word to be removed: ");
+            scanf(" %[^\n]", word); getchar();
+
+            struct node *temp = searchWord(root, word);
+            if(temp == NULL){
+                printf("\nThere is no word \"%s\" in the dictionary\n", word);
+            }else{
+                removeWord(root, word);
+                printf("\nSuccessfully removed a slang word\n");
+            }
+            printf("\nPress enter to continue...");
+            getchar();
+            menu(); //kembali ke menu
+            break;
+
+        case 6:
             printf("Thank you... Have a nice day :)\n");
             getchar();
             exit(1); //keluar dari program
             break;
-        //tambah delete function ah
 
         //input diluar 1-5 mengulang
         default:
