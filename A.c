@@ -7,7 +7,7 @@ struct node{
     //untuk menyimpan karakter di node tersebut
     char value;
     //deskripsi dari kata yang berakhir di node tersebut
-    char description[100];
+    char description[100]; //maksimal 100 karakter
     //menyimpan node-node anak jumlah 26 untuk setiap huruf di alphabet
     struct node *children[26];
     //menandakan akhir dari kata
@@ -38,14 +38,26 @@ int main(){
     root = createNode(' ');
 
     //data testing
-    insert("macaco", "world");
-    insert("macaroni", "hello");
-    insert("macaroon", "okay");
-    insert("machinable", "okay");
-    insert("machine", "okay");
-    insert("macromolecular", "okay");
-    insert("macroscopic", "okay");
-    insert("macronuclear", "okay");
+    insert("macaco", "some word");
+    insert("macaroni", "kind of food");
+    insert("macaroon", "also a kind of food");
+    insert("machinable", "description");
+    insert("machine", "a tool");
+    insert("macromolecular", "large molecule");
+    insert("macroscopic", "visible to the naked eye");
+    insert("macronuclear", "densely staining nucleus");
+    insert("macrophage", "a type of white blood cell");
+    insert("macropod", "a kangaroo");
+    insert("macropodidae", "a family of marsupials");
+    insert("macropus", "a genus of kangaroos");
+    insert("macula", "a part of the eye");
+    insert("maculate", "spotted");
+    insert("maculation", "a spot");
+    insert("macule", "a spot");
+    insert("macumba", "a Brazilian religion");
+    insert("macushla", "my pulse");
+    insert("mad", "crazy");
+    insert("madagascar", "a country");
 
     menu();
     return 0;
@@ -62,16 +74,16 @@ void menu(){
     int choice;
 
     //kata-kata yang mungkin di input
-    char word[100];
-    char description[100];
+    char word[100]; //maksimal 100 karakter
+    char description[100]; //maksimal 100 karakter
 
     //opsi menu
     printf("1. Release a new slang word\n");
     printf("2. Search for a slang word\n");
     printf("3. View all slang words starting with a certain prefix word\n");
     printf("4. View all slang words\n");
-    printf("5. Remove a slang word\n");
-    printf("6. Exit\n");
+    // printf("5. Remove a slang word\n"); //fitur tambahan 
+    printf("5. Exit\n");
 
     //pilihan user
     printf("Enter choice: ");
@@ -188,31 +200,31 @@ void menu(){
             break;
 
         //fitur tambahan delete kata
+        // case 5:
+        //     countIndex = 1; 
+        //     printTrie(root, (char*)malloc(100), 0);
+        //     printf("Input a slang word to be removed: ");
+        //     scanf(" %[^\n]", word); getchar();
+
+        //     struct node *temp = searchWord(root, word);
+        //     if(temp == NULL){
+        //         printf("\nThere is no word \"%s\" in the dictionary\n", word);
+        //     }else{
+        //         removeWord(root, word);
+        //         printf("\nSuccessfully removed a slang word\n");
+        //     }
+        //     printf("\nPress enter to continue...");
+        //     getchar();
+        //     menu(); //kembali ke menu
+        //     break;
+
         case 5:
-            countIndex = 1; 
-            printTrie(root, (char*)malloc(100), 0);
-            printf("Input a slang word to be removed: ");
-            scanf(" %[^\n]", word); getchar();
-
-            struct node *temp = searchWord(root, word);
-            if(temp == NULL){
-                printf("\nThere is no word \"%s\" in the dictionary\n", word);
-            }else{
-                removeWord(root, word);
-                printf("\nSuccessfully removed a slang word\n");
-            }
-            printf("\nPress enter to continue...");
-            getchar();
-            menu(); //kembali ke menu
-            break;
-
-        case 6:
             printf("Thank you... Have a nice day :)\n");
             getchar();
             exit(1); //keluar dari program
             break;
 
-        //input diluar 1-5 mengulang
+        //input diluar 1-6 mengulang
         default:
             menu();
             break;
